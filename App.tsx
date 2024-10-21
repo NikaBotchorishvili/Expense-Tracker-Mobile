@@ -2,11 +2,15 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import Home from "./screens/Home";
+import Home from "./screens/RecentExpenses";
 import Settings from "./screens/Settings";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "./style/Colors";
-const Tab = createBottomTabNavigator();
+import AllExpenses from "./screens/AllExpenses";
+import { RootBottomTabParams } from "./types/navigation";
+import ModalComponent from "./components/ui/Modal";
+import AddForm from "./components/RecentExpenses/Forms/AddForm";
+const Tab = createBottomTabNavigator<RootBottomTabParams>();
 
 export default function App() {
 	return (
@@ -19,7 +23,7 @@ export default function App() {
 							backgroundColor: Colors.primaryForeground,
 						},
 						tabBarStyle: {
-							backgroundColor: Colors.primaryForeground, // Set background color for the tab bar
+							backgroundColor: Colors.primaryForeground,
 						},
 						headerTitleStyle: {
 							color: Colors.textPrimary,
@@ -32,12 +36,12 @@ export default function App() {
 					}}
 				>
 					<Tab.Screen
-						name="Home"
+						name="RecentExpenses"
 						component={Home}
 						options={{
 							tabBarIcon: ({ focused }) => (
 								<Ionicons
-									name="home"
+									name="hourglass"
 									size={24}
 									color={
 										focused
@@ -46,6 +50,41 @@ export default function App() {
 									}
 								/>
 							),
+							title: "Recent",
+							headerRight: () => (
+								<>
+									<ModalComponent
+										button={
+											<Ionicons
+												name="add"
+												size={24}
+												color={Colors.textPrimary}
+												style={{ marginRight: 10 }}
+											/>
+										}
+										title="Add Expense"
+										FormComponent={AddForm}
+									/>
+								</>
+							),
+						}}
+					/>
+					<Tab.Screen
+						name="AllExpenses"
+						component={AllExpenses}
+						options={{
+							tabBarIcon: ({ focused }) => (
+								<Ionicons
+									name="calendar"
+									size={24}
+									color={
+										focused
+											? Colors.textPrimary
+											: Colors.textSecondary
+									}
+								/>
+							),
+							title: "All Expenses",
 						}}
 					/>
 					<Tab.Screen

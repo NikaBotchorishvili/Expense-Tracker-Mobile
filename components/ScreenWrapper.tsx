@@ -2,7 +2,7 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 import Colors from "../style/Colors";
 type Props = {
 	children: React.ReactNode;
-	style: ViewStyle;
+	style?: ViewStyle;
 };
 
 const ScreenWrapper: React.FC<Props> = ({ children, style }) => {

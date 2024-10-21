@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Constants from "expo-constants";
 import Colors from "../../../style/Colors";
-Colors;
 type Props = {
 	title: string;
 };

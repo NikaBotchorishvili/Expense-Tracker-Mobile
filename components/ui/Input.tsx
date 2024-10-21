@@ -1,31 +1,52 @@
-import { ControllerRenderProps } from "react-hook-form";
-import { KeyboardTypeOptions, StyleSheet, TextInput } from "react-native";
-import { AddFormData } from "../RecentExpenses/Forms/types";
+import { ControllerFieldState, ControllerRenderProps } from "react-hook-form";
+import {
+	KeyboardTypeOptions,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
+} from "react-native";
+import {} from "../RecentExpenses/Forms/AddForm/schema";
 import Colors from "../../style/Colors";
 
 type Props = {
-	field: ControllerRenderProps<AddFormData, keyof AddFormData>;
+	field: ControllerRenderProps<any, any>;
+	fieldState: ControllerFieldState;
 	placeholder: string;
 	keyboardType: KeyboardTypeOptions;
 };
 
-const Input: React.FC<Props> = ({ field, placeholder, keyboardType }) => {
+const Input: React.FC<Props> = ({
+	field,
+	fieldState: { error },
+	placeholder,
+	keyboardType,
+}) => {
 	return (
-		<TextInput
-			{...field}
-			value={field.value ? String(field.value) : ""}
-			placeholder={placeholder}
-			style={styles.input}
-			placeholderTextColor="#888"
-			onChangeText={field.onChange}
-			onBlur={field.onBlur}
-			keyboardType={keyboardType}
-		/>
+		<View style={styles.container}>
+			<TextInput
+				{...field}
+				value={field.value ? String(field.value) : ""}
+				placeholder={placeholder}
+				style={[styles.input, error && { borderColor: Colors.accent }]}
+				placeholderTextColor="#888"
+				onChangeText={field.onChange}
+				onBlur={field.onBlur}
+				keyboardType={keyboardType}
+			/>
+			{error && <Text style={styles.error}>{error.message}</Text>}
+		</View>
 	);
 };
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: "center",
+		width: "100%",
+	},
 	input: {
+		width: "100%",
 		borderWidth: 1,
 		borderColor: Colors.primaryForeground,
 		borderRadius: 8,
@@ -39,6 +60,9 @@ const styles = StyleSheet.create({
 		shadowRadius: 4,
 		elevation: 3,
 		color: Colors.textPrimary,
+	},
+	error: {
+		color: Colors.accent,
 	},
 });
 

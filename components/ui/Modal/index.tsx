@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, StyleSheet, View, TouchableOpacity } from "react-native";
+import { Modal, StyleSheet, View } from "react-native";
 import Colors from "../../../style/Colors";
 import Header from "./Header";
 import { AddFormProps } from "../../RecentExpenses/Forms/AddForm";
@@ -7,10 +7,16 @@ import Button from "../Button";
 type Props = {
 	button: React.ReactNode;
 	title: string;
-	FormComponent: React.ComponentType<AddFormProps>;
+	FormComponent: React.ComponentType<AddFormProps & any>;
+	defaultValues?: any;
 };
 
-const ModalComponent: React.FC<Props> = ({ button, title, FormComponent }) => {
+const ModalComponent: React.FC<Props> = ({
+	button,
+	title,
+	FormComponent,
+	...rest
+}) => {
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
 
 	const showModal = () => {
@@ -34,7 +40,7 @@ const ModalComponent: React.FC<Props> = ({ button, title, FormComponent }) => {
 				<View style={styles.modalContainer}>
 					<Header title={title} />
 
-					<FormComponent hideModal={hideModal} />
+					<FormComponent hideModal={hideModal} {...rest} />
 				</View>
 			</Modal>
 		</View>
@@ -43,7 +49,6 @@ const ModalComponent: React.FC<Props> = ({ button, title, FormComponent }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
 	},

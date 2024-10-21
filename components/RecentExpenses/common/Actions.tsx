@@ -14,7 +14,12 @@ const Actions: React.FC<Props> = ({ onCancel, onSubmit }) => {
 			<Button style={styles.cancelButton} onPress={onCancel}>
 				<Text style={styles.buttonText}>Cancel</Text>
 			</Button>
-			<Button style={styles.actionButton} onPress={onSubmit}>
+			<Button
+				style={styles.actionButton}
+				onPress={() => {
+					onSubmit();
+				}}
+			>
 				<Text style={styles.buttonText}>Submit</Text>
 			</Button>
 		</View>

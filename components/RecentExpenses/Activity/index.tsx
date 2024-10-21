@@ -1,34 +1,20 @@
 import React from "react";
-import { FlatList, Text, View } from "react-native";
-import Card from "./Card";
-import { Item } from "../../../store/types";
+import { FlatList, View } from "react-native";
+import useStore from "../../../store/useStore";
+import CardModal from "./CardModal";
 
 const ActivityList = () => {
-	const data: Item[] = [
-		{
-			id: 1,
-			title: "Groceries",
-			amount: 50,
-			createdAt: new Date().toString(),
-		},
-		{ id: 2, title: "Gas", amount: 50, createdAt: new Date().toString() },
-		{ id: 3, title: "Rent", amount: 50, createdAt: new Date().toString() },
-		{
-			id: 4,
-			title: "Groceries",
-			amount: 50,
-			createdAt: new Date().toString(),
-		},
-		{ id: 5, title: "Gas", amount: 50, createdAt: new Date().toString() },
-		{ id: 6, title: "Rent", amount: 50, createdAt: new Date().toString() },
-	];
-
+	const { items } = useStore();
 	return (
-		<View>
+		<View style={{ flex: 1 }}>
 			<FlatList
-				data={data}
+				data={items}
 				ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
-				renderItem={({ item }) => <Card item={item} />}
+				renderItem={({ item }) => (
+					<View style={{ flex: 1, width: "100%" }}>
+						<CardModal item={item} />
+					</View>
+				)}
 				keyExtractor={(item) => item.id.toString()}
 			/>
 		</View>

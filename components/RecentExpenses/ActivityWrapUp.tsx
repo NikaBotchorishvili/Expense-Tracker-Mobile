@@ -1,8 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Colors from "../../style/Colors";
+import useStore from "../../store/useStore";
 
 const ActivityWrapUp = () => {
+	const { items } = useStore();
+	const totalCost = items.reduce((acc, item) => acc + item.amount, 0);
 	return (
 		<View style={styles.container}>
 			<Text
@@ -25,7 +28,7 @@ const ActivityWrapUp = () => {
 					styles.text,
 				]}
 			>
-				67.7$
+				{totalCost}$
 			</Text>
 		</View>
 	);

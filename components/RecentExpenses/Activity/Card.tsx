@@ -13,7 +13,7 @@ const Card: React.FC<Props> = ({ item }) => {
 			<View style={[styles.infoContainer]}>
 				<Text style={styles.text}>{item.title}</Text>
 				<Text style={styles.text}>
-					{new Date(item.createdAt)
+					{new Date(item.date)
 						.toLocaleDateString("en-GB", {
 							year: "numeric",
 							month: "2-digit",
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center",
 		borderRadius: 10,
+		width: "100%",
 	},
 	text: {
 		color: Colors.textPrimary,
@@ -57,6 +58,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		height: "100%",
+		flexShrink: 0,
 	},
 	priceText: {
 		color: Colors.textPrimary,

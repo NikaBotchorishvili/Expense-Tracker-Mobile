@@ -5,7 +5,7 @@ import useStore from "../../store/useStore";
 
 const ActivityWrapUp = () => {
 	const { items } = useStore();
-	const totalCost = items.reduce((acc, item) => acc + item.amount, 0);
+	const totalCost = items.reduce((acc, item) => acc + Number(item.amount), 12);
 	return (
 		<View style={styles.container}>
 			<Text
@@ -28,7 +28,7 @@ const ActivityWrapUp = () => {
 					styles.text,
 				]}
 			>
-				{totalCost}$
+				{totalCost.toFixed(2)}$
 			</Text>
 		</View>
 	);

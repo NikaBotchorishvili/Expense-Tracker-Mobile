@@ -1,35 +1,42 @@
 import { Item } from "../../store/types";
 
-export const addEntry = async ({
-	data,
-}: {
-	data: Omit<Item, "id" | "createdAt">;
-}) => {
+type returnData<T> = {
+	data: T;
+	count?: number;
+	statusCode: number;
+};
+
+export const addEntry = async (
+	data: Omit<Item, "id" | "createdAt">
+): Promise<returnData<Item>> => {
 	const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 	try {
-		const res = await fetch(`${apiUrl}/items.json`, {
+		const res = await fetch(`${apiUrl}/entries`, {
 			method: "POST",
-			body: JSON.stringify(data),
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ ...data }),
 		});
-		const json = await res.json();
+
+		if (![201, 200].includes(res.status)) {
+			throw await res.json();
+		}
+		const json: returnData<Item> = await res.json();
 		return json;
 	} catch (error) {
 		console.error(error);
 		throw new Error("Failed to add entry");
 	}
 };
-export const getEntries = async (): Promise<Item[]> => {
+export const getEntries = async (): Promise<returnData<Item[]>> => {
 	const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 	try {
-		const res = await fetch(`${apiUrl}/items.json`, {
+		const res = await fetch(`${apiUrl}/entries`, {
 			method: "GET",
 		});
-		const json = await res.json();
-		const items: Item[] = Object.keys(json).map((key) => ({
-			id: key,
-			...json[key],
-		}));
-		return items;
+		const json: returnData<Item[]> = await res.json();
+		return json;
 	} catch (error) {
 		console.error(error);
 		throw new Error("Failed to add entry");

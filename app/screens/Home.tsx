@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from "react-native";
 import ScreenWrapper from "../components/ScreenWrapper";
 import Colors from "../style/Colors";
 import BalanceCard from "../components/common/BalanceCardWithDetails";
-import { LinearGradient } from "expo-linear-gradient";
 import ActivityWrapUp from "../components/Home/ActivityWrapUp";
 import ActivityList from "../components/Home/Activity";
 

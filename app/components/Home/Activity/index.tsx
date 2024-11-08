@@ -9,7 +9,6 @@ const ActivityList = () => {
 	useEffect(() => {
 		initializeItems();
 	}, [initializeItems]);
-	console.log(items);
 	return (
 		<FlatList
 			data={items}

@@ -16,7 +16,7 @@ type Actions = {
 const useStore = create<State & Actions>((set) => ({
 	initializeItems: async () => {
 		const items = await getEntries();
-		set({ items: items });
+		set({ items: items.data });
 	},
 	items: [],
 	addItem: (item) =>

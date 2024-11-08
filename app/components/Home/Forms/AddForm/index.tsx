@@ -1,12 +1,12 @@
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { ScrollView, StyleSheet } from "react-native";
+import { KeyboardAvoidingView, StyleSheet } from "react-native";
 import { schema, FormType } from "./schema";
 import Input from "../../../ui/Input";
 import Actions from "../../common/Actions";
 import useStore from "../../../../store/useStore";
 import { yupResolver } from "@hookform/resolvers/yup";
-import uuid from "react-native-uuid";
 import { addEntry } from "../../../../utils/entries";
+import DatePicker from "../../../ui/DatePicker";
 export type AddFormProps = {
 	hideModal?: () => void;
 };
@@ -18,7 +18,6 @@ const AddForm: React.FC<AddFormProps> = ({ hideModal }) => {
 			title: "",
 			description: "",
 			category: "",
-			date: "",
 			amount: 10,
 		},
 	});
@@ -26,13 +25,12 @@ const AddForm: React.FC<AddFormProps> = ({ hideModal }) => {
 
 	const submitHandler: SubmitHandler<FormType> = async (data) => {
 		try {
-			const res = await addEntry({ data });
+			const dateISOString = new Date(data.date).toISOString().toString();
+			const res = await addEntry({ ...data, date: dateISOString });
 
 			if (res) {
 				addItem({
-					...data,
-					id: uuid.v4().toString(),
-					createdAt: new Date().toString(),
+					...res.data,
 				});
 			}
 			if (hideModal) {
@@ -43,7 +41,7 @@ const AddForm: React.FC<AddFormProps> = ({ hideModal }) => {
 		}
 	};
 	return (
-		<ScrollView contentContainerStyle={styles.container}>
+		<KeyboardAvoidingView style={styles.container}>
 			<Controller
 				name="title"
 				control={control}
@@ -83,12 +81,11 @@ const AddForm: React.FC<AddFormProps> = ({ hideModal }) => {
 			<Controller
 				name="date"
 				control={control}
-				render={({ field, fieldState }) => (
-					<Input
-						keyboardType="default"
-						field={field}
+				render={({ field: { onChange, value }, fieldState }) => (
+					<DatePicker
 						fieldState={fieldState}
-						placeholder={"Enter a date"}
+						value={value}
+						onChange={onChange}
 					/>
 				)}
 			/>
@@ -112,7 +109,7 @@ const AddForm: React.FC<AddFormProps> = ({ hideModal }) => {
 				}}
 				onSubmit={handleSubmit(submitHandler)}
 			/>
-		</ScrollView>
+		</KeyboardAvoidingView>
 	);
 };
 
@@ -121,6 +118,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+		width: "70%",
+		marginHorizontal: "auto",
 	},
 });
 
